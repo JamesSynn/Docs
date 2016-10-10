@@ -1,7 +1,10 @@
 
 # GIT
 
-
+ref.
+https://opentutorials.org/course/1492
+https://github.com
+https://bitbucket.org
 
 ## git initializing
 
@@ -40,7 +43,7 @@
 임시파일이나 폴더, 자동 저장등으로 생성된 파일을 제외 할 수 있다.
 
 	$ git status
-	$ gedit .gitignore
+	$ emacs .gitignore
 
 	.gitignore 
 		제외하고싶은 파일 설정
@@ -66,13 +69,14 @@
 
  명령 패턴
 
-	$ git operation_keyword parameter and/or values
- 
- git clone # 깃의 복제
- git fetch # 소스부터 목적지까지 변경사항
- git merge # 분기를 하나로 합침
- git push # 소스를 목적지에 밀어넣음
- git remote # 소스와 목적지를 관리(fetch, push, pull)
+	$ git <operation_keyword> <parameter> and/or <values>
+
+	git clone # 깃의 복제
+	git fetch # 소스부터 목적지까지 변경사항
+	git merge # 분기를 하나로 합침
+	git push # 소스를 목적지에 밀어넣음
+	git remote # 소스와 목적지를 관리(fetch, push, pull)
+
 
 ### 저장소에 원격지를 연결하거나 추가하는 방법
 
@@ -84,17 +88,40 @@ add 와 push 에 있는 origin은 다른 이름으로 대체 가능, 두 개가 
 저장소 별로 원격지 를 설정해 주어야 한다.
 
 	$ git config -l 
-	
-### 다른 곳에서 작업
+
+##  git을 사용해 작업하기
 
 	$ git clone https://github.com/JamesSynn/Docs.git ~/Documents/Docs  # 로컬에 저장소 생성
-	$ git add *  #  모든 파일 추가
+/Docs라는 디렉토리는 로컬에 존재하지 않아야 한다.
+클론을 하면 /Docs 안에 자동으로 로컬저장소와 .git 디렉토리 그리고 origin이 설정된다.
+따라서, 작업 후 아래 명령만 입력하면 된다.
+
+ 디렉토리 이동
+
+	$ cd ~/Documents/Docs
+
+~/Documents/Docs
+
+	$ git add .  #  변경사항 저장
 	$ git commit -m "your commit message"  #  저장된 파일 커밋
 	$ git pull  # 로컬 저장소 업데이트
 	$ git push  # 온라인으로 업로드 
 
-# 노출된 저장소 생성
+
+### 노출된 저장소 생성 (optional)
+
+ 원격지를 bitbucket으로 생성했을 때, 저장소를 복사해서 오픈된 저장소로 코드를 노출 할 수 있다.
 
 	$ git clone --bare c:/user/workbench c:/share/bare_workbench
 
+## 디테일한 사용
 
+	$ git <command> -h #  도움말, 명령어 상세 보기
+
+### remote 명령
+
+	$ git remote add <name> <url>  #  원격지 추가
+	$ git remote rename <old> <new>  #   원격지 이름 변경
+	$ git remote remove <name> # 제거
+	
+	
