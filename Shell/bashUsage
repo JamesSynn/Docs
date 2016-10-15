@@ -1,0 +1,515 @@
+
+
+bash files
+
+/etc/profile
+/etc/bashrc
+~/.bash_profile
+~/.bashrc
+~/.bash_logout
+
+/etc/profile
+/etc/profile은 환경 변수와 bash가 수행될 때 실행되는 프로그램을 제어하는 전역적인 시스템 설정과 관련된 파일이다[역자 주: /etc/profile은 변수와 bash를 실행하는 모든 사용자가 수행하는 프로그램을 포함한다]. 만일 여러분이 MS-DOS 사용자라면, /etc/profile이 autoexec.bat과 같은 역할을 한다고 설명하면 더 알아듣기 쉬울 것이다.
+
+/etc/bashrc
+/etc/bashrc는 별칭(alias)과 bash가 수행될 때 실행되는 함수를 제어하는 전역적인 시스템 설정과 관련된 파일이다[역자 주: /etc/bashrc에는 별칭(긴 명령어에 대한 "바로 가기")은 물론 불려질 때 실행되는 짤막한 코드도 포함하고 있다]. 때때로 /etc/bashrc는 생략되기도 하며 그 내용은 /etc/profile에 함께 포함되기도 한다. 
+
+~/.bash_profile
+~/.bash_profile 은 환경 변수와 bash가 수행될 때 실행되는 프로그램을 제어하는 지역적인 시스템 설정과 관련된 파일이다. 이들 환경 변수들은 오직 그 사용자에게만 한정되며, 그 이외의 다른 사람에게는 영향을 미치지 않는다. 이 파일은 전역적인 설정 파일인 /etc/profile이 수행된다음 바로 수행된다[역자 주:  모든 사용자에게 영향을 주는 /etc/profile과는 달리, ~/.bash_profile는 오직 bash를 실행하는 그 사용자에게만 영향을 준다]. 
+
+~/.bashrc
+~/.bashrc는 별칭(alias)과 bash가 수행될 때 실행되는 함수를 제어하는 지역적인 시스템 설정과 관련된 파일이다. 이들 별칭과 함수들은 오직 그 사용자에게만 한정되며, 그 이외의 다른 사람에게는 영향을 미치지 않는다. 이 파일은 전역적인 설정 파일인 /etc/bashrc이 수행된 다음 바로 수행된다[역자 주: 모든 사용자에게 영향을 주는 /etc/bashrc와는 달리, ~/.bashrc 는 오직 bash를 실행하는 그 사용자에게만 영향을 준다]. 
+
+~/.bash_logout
+~/.bash_logout 은 사용자가 로그 아웃하기 바로 직전에 실행하는 프로그램에 관한 bash의 지역적인 시스템 설정과 관련된 파일이다. 이들 프로그램은 오직 그 프로그램을 실행하는 사용자에게만 영향을 끼치지 다른 사람에게는 아무런 영향을 주지 않는다. 
+
+
+
+
+ 
+
+FOOBAR=/bin/foobar
+
+이 라인을 주석 처리해서 설정 파일이 읽지 않도록 하기 위해서는 해쉬 기호:"#"를 그 앞에 더해 넣으면 된다:
+
+ 
+
+# FOOBAR=/bin/foobar
+
+만일 나중에 다시 이 라인이 필요하게 되면, 그저 이 해쉬 기호를 지워버리면 된다. 주석 처리는 편집할 때 짤막한 주의 사항을 적을 때에도 요긴하다:
+
+ 
+
+경로
+첫번째로 설정해야 하는 것은 PATH 변수이다. PATH 는 여러분이 직접 접근할 수 있는 디렉토리를 정의한다. 예를 들어, 만일 여러분이 /bin 이라는 디렉토리에 foo 라는 프로그램을 가지고 있고 그것을 실행하고 싶다고 하자. 만일 /bin이 여러분의 PATH 에 있지 않다면, 프로그램 foo를 실행하기 위해 /bin/foo이라고 전체 경로를 입력해야만 할 것이다. 이 변수는 /etc/profile에 있는데, 특이한 문법으로 설정된다. 등호 오른 쪽에 있는 각 디렉토리는 콜론: ":"으로 구분되어야 한다. 예를 하나 들어보자:
+
+ 
+
+PATH=/bin:/usr/bin:/usr/local/bin
+
+export PATH
+
+위의 예에서, 세 개의 디렉토리 /bin, /usr/bin, /usr/local/bin은 콜론으로 구분되었다. 새로운 PATH 변수를 만들 때에는, 현재의 PATH 변수를 새로운 PATH에 더해주는 것이 중요하다. 예를 들면:
+
+ 
+
+PATH=$PATH:/usr/games
+
+export PATH
+
+이렇게 함으로써 이미 존재하는 PATH 변수, $PATH에 /usr/games을 추가한다. 변수 앞에 달러 기호를 붙이면 원래 지니고 있는 값으로 확장된다는 사실을 기억하라. 이 경우에는, $PATH는 /bin:/usr/bin:/usr/local/bin으로 확장되었다. 이 값이 새로운 PATH 변수에 더해졌기 때문에, 새로운 PATH 변수는 이제 /bin:/usr/bin:/usr/local/bin:/usr/games으로 확장된다. 만일 여러분이 정의에서 $PATH을 빼먹었다면, PATH는 /usr/games으로 확장될 것이다. 만일 여러분이 루트가 아니라면, 여러분의 것으로 ~/.bash_profile에 있는 현재 존재하는 PATH를 수정하거나 그것에 더해 넣을 수 있다. 
+
+프롬프트
+PS1변수는 여러분의 기본적인 프롬프트를 나타낸다. 여러분의 시스템이 어떻게 설정되었는지에 따라, PS1 변수는 달라진다. 일반적으로 PS1은 /etc/profile에 정의되는데, ~/.bash_profile에 다시 정의함으로써 먼저 정의된 내용을 무효로 할 수 있다[역자 주: 오직 루트만이/etc/profile 을 쓸 수 있기 때문에, 여러분 자신의 ~/.bash_profile에서 환경 변수를 재정의함으로써 먼저 정의된 내용을 무효로 할 수 밖에 없다]. bash 는 PS1 변수에 역 슬래시 기호가 앞에 붙어있는 특수 문자를 인식한다. 인식되는 문자들은 다음과 같다:
+
+ 
+
+\t        HH:MM:SS 형식으로 나타나는 현재 시간
+
+\d       "Weekday Month Date" 형식으로 나타나는 날짜 
+
+ (eg, "Tue May 26")
+
+\n        개행 문자(newline)
+
+\s        쉘의 이름
+
+\w       현재 작업 디렉토리
+
+\W       현재 작업 디렉토리의 베이스 이름
+
+\u        현재 사용자의 사용자 이름
+
+\h        호스트 이름
+
+\#       이 명령의 명령 번호
+
+\!        이 명령의 히스토리 번호
+
+\$        유효한 UID가 0이면 #, 아니면 $
+
+이들은 여러분의 프롬프트를 변경할 수 있게 해주는 문자들이다. 만일 여러분의 PS1 변수가 PS1="[\u@\h \W]\$"과 같이 설정되었다면, 프롬프트는 다음과 같을 것이다:
+
+ 
+
+[xconsole@localhost /etc]$
+
+만일 다음과 같이 바꾼다면:
+
+PS1="[\t \s]\$ ",
+
+다음과 같은 모양의 프롬프트를 보게 될 것이다:
+
+[12:18:24 bash]$
+
+이들 역 슬래시를 포함한 특수 문자 외에도, 명령도 프롬프트를 바꾸는 데에 사용할 수 있다. 예를 들면, 여러분의 프롬프트를 하나의 운세로 실행하고 싶다면, 다음과 같이 할 수 있다:
+
+ 
+
+PS1="`fortune` \$ "
+
+"'" 대신에 "`"을 사용했다는 사실에 유의하라. 이렇게 변경된 PS1변수는 다음과 같은 프롬프트를 보여준다:
+
+ 
+
+He is no laywer who cannot take two sides. $
+
+여러분이 볼 수 있듯이, bash는 여러 가지 설정 방법을 다 수용하기 때문에 이 모든 것을 다 익히려고 하면 여러분이 먼저 지쳐버릴 것이다. PS2 변수는 여러분이 완성되지 않은 명령을 입력하거나 명령의 끝에 역 슬래시를 입력했을 때 사용되는 2차적인 프롬프트이다[역자 주:bash에서 명령 끝의 역 슬래시는 명령이 아직 끝나지 않았다는 것을 말해준다. 이 때 PS2 변수가 보여진다. 또한 bash 는 여러분이 입력하고 있는 명령이 언제 완성되지 않았다는 것을 알아차릴 정도로 똑똑하다. 그런 경우에 PS2 변수가 보여진다]. 여러분에게 PS2 변수가 보여질 때, bash는 자신이 그 명령을 실행하려고 하기 전에 여러분이 명령을 완성할 것을 기대한다. 여러분의 현재 PS2 변수를 보기 위해서, 다음의 명령을 실행하도록 하자:
+
+
+xconsole$ if [ -f /etc/profile ]; then
+여러분이 ENTER를 누르면, 다음과 같은 새로운 프롬프트를 보게 될 것이다: 
+xconsole$ if [ -f /etc/profile ]; then
+>
+
+이 프롬프트가 바로 PS2 변수이다. echo $PS2로도 볼 수 있다. if 문을 가지고 있는 위의 예에서, 우리는 명령의 끝에 역 슬래시를 더해 넣지 않았지만 bash는 명령이 아직 완성되지 않았다는 것을 알았다. PS1과 마찬가지로 PS2도 /etc/profile에 정의되어 있으며, ~/.bash_profile에서 재정의하여 이전 것을 무효화할 수 있다. 역 슬래시를 포함하는 특수 문자뿐만 아니라 fortune 같은 다른 프로그램도 인식한다[역자 주: PS1에 적용할 수 있는 것은 모두 PS2에도 적용된다].
+
+
+
+히스토리
+bash는 여러분이 콘솔에서 입력한 모든 명령들의 기록을 계속해서 가지고 있다. Bash가 어떻게 설정되었는지에 따라 이것을 ~/.bash_history이라 불리는 파일로 저장하도록 선택할 수도 있다. 또한 bash는 여러분이 실행한 명령들을 기록하고 있어서 여러분이 위 화살표를 누르거나history를 입력하면 그것들을 보여준다. 만일 여러분의 프라이버시가 걱정된다면, 이 모든 것은 다음의 변수를 조절함에 따라 설정될 수 있다:
+
+    HISTSIZE
+    HISTFILE
+    HISTFILESIZE
+
+이들 파일들은 일반적으로 /etc/profile에 정의되지만, ~/.bash_profile에 포함해서 이전에 정의된 값을 무효로 할 수 있다. 
+
+HISTSIZE
+HISIZE는history 명령에서 기억되는 명령의 수를 제어한다. 기본 값은 500이다[역자 주: HISTSIZE는 history 안에 간직 되어지는 명령의 수를 기록으로 남기는 것이다. 즉, 그 값이 5로 명시되었다면, history는 실행된 명령 중 오직 마지막 다섯 개의 명령만 기억한다]. 내 경우에는 일반적으로 그 값을 5로 정한다. 
+
+HISTFILE
+HISTFILE은 모든 명령들이 기록되는 파일을 지정한다. 일반적으로 이 변수의 값은 ~/.bash_history으로 정해진다. 대개의 경우 이 파일은 별로 필요하지 않으므로, 지정하지 않은 채로 두거나 /dev/null로 출력 결과를 파이프로 보내 버리곤 한다. 
+
+HISTFILESIZE
+HISTFILESIZE은 ~/.bash_history 나 여러분이 HISTFILE에 지정한 파일에 기록되는 명령의 수가 가지는 최대값을 정의한다. 만일 이 변수의 값이 2로 정해지면, 오직 실행된 명령 중 마지막 두 개만이 ~/.bash_history에 기록될 것이다. 만일 HISTFILE을 방치한다면, 그 값은 상당히 큰 값으로 커져 버릴 수도 있다. 이 변수는 HISTFILE이 특정 크기를 계속 유지하도록 한다. HISTFILESIZE의 기본 값은 500이다. 만일 여러분 자신의 명령을 HISTFILE에 기록하기로 결정했다면, 500 보다 작은 값을 명시하고 싶을 것이다. 
+
+메일 체크
+bash는 여러분이 이메일을 체크 하는 방법을 설정하도록 해준다. bash 에는 다음과 같이 이메일 설정을 제어하는 변수들이 있다:
+
+    MAIL
+    MAILCHECK
+    MAILPATH
+    MAIL_WARNING
+
+이들 변수들은 일반적으로 /etc/profile에 정의되어 있으나, ~/.bash_profile에서 재정의해서 이전 값을 무효로 할 수 있다.
+
+MAIL
+이메일이 사용자에게 배달되면, 이메일의 내용은 하나의 파일 안에 저장된다. 이 파일을 정의하는 것이 MAIL이다. 만일 다른 파일로 MAIL이 정의되지 않았다면, 그 기본 값은 /var/spool/mail/$USER이다[역자 주: 만일 여러분의 사용자 이름이 xconsole이라면, 여러분의 이메일은/var/spool/mail/xconsole 안에 저장된다]. 이 값은 오직 변수 MAILPATH가 정의되지 않은 경우에만 그렇다. 이 값을 바꾸면 여러분의 이메일이 저장되는 파일이 바뀌게 된다.
+
+MAILCHECK
+이 변수는 bash가 얼마나 자주 들어오는 이메일을 체크 할 것인지 정한다. 기본 값은 60이다. 이것이 뜻하는 바는 bash 가 매 분마다 여러분에게 새로운 이메일이 왔는지 체크 할 것이라는 것이다.
+
+MAILPATH
+이 변수는 이메일을 체크 하는 경로를 정의한다. 일반적으로 이 값은 /var/spool/mail으로 정해져 있다. 각 경로는 콜론: ":"으로 구분되어진다. 또한 여러분은 이 변수를 수정해서 여러분이 새로운 이메일을 받을 때마다 특정 메시지를 출력하도록 할 수도 있다. 예를 들면, 만일 여러분이 이 변수를 다음과 같이 정의했다고 하면:
+
+MAILPATH='/var/spool/mail/xconsole "Yeah! Incoming message!"'
+
+여러분이 이메일을 하나 받을 때마다, 다음과 같은 문구가 출력될 것이다:
+
+Yeah! Incoming message!
+
+물론 이 메시지는 여러분이 좋아하는 것으로 바꿀 수 있다. MAILPATH는 경로 /var/spool/mail/xconsole 을 체크 하는 것으로 시작해서 그런 다음 받은 이메일을 여러분에게 알려줄 것이다.
+
+MAIL_WARNING
+만일 MAIL_WARNING이 정의되었다면, 여러분이 방금 읽은 이메일을 다시 읽으려고 하면 bash는 여러분에게 다음과 같은 메시지를 내보낼 것이다:
+
+The mail in mailfile has been read
+
+mailfile은 사용자의 이메일이 저장되는 파일을 나타내는 변수 MAIL이다. 만일 여러분이 같은 이메일을 두 번 읽는다는 사실을 알기 원한다면, 이 변수를 설정하는 것은 도움이 된다. 하지만, 여러분이 자동적으로 이미 읽은 이메일과 이미 답장을 한 이메일을 알려주는 pine 같은 이메일 클라이언트를 사용한다면 별 도움이 안될 것이다.
+
+작업 완료 시 통지 받는 법 
+bash가 어떻게 설정되었는지에 따라, 여러분이 백그라운드에서 실행한 작업(job)이 완료되었다는 메시지를 받을 수도 있고 받지 못할 수도 있다[역자 주: 백그라운드에서 실행되는 프로그램들을 작업(job)이라고 부른다. 백그라운드에서 프로그램을 실행하는 것은 명령의 바로 다음에 "&"을 더해 넣기만 하면 된다. 예를 들면, updatedb & 같이]. 작업이 완료되었을 때, 다음과 같은 메시지를 받기 전에 ENTER를 눌러야 할 지도 모른다:
+
+
+[1]1+ Done updatedb
+ENTER 키를 누르지 않아도 이 메시지가 자동적으로 튀어 나오게 하고 싶다면, /etc/profile 이나 ~/.bash_profile에 있는 notify 변수를 설정해야만 한다. 이 변수를 설정하는 것은 다음의 항목을 /etc/profile 이나 ~/.bash_profile에 더해 넣으면 된다:
+
+set -o notify
+
+변수 notfiy는 여러분에게 백그라운드에서의 작업이 완료되는 시점을 알려줄 것이다. 이 변수를 설정하고 싶지 않다면, unset +o notify 명령을 더해 넣으면 된다.
+
+타임 아웃 
+새로운 bash 세션을 열 때, 여러분은 그 쉘이 자동적으로 끝날 때까지 얼마나 기다려야 할 것인지를 TMOUT 변수로 명시할 수 있다. 이 변수의 값은 초 단위로 나타나는 시간으로 이 시간이 지나도록 사용자 입력이 없으면 쉘 자체가 자동적으로 종료한다. 만일 여러분이 이 변수를/etc/profile 이나 /etc/.bash_profile 에 다음과 같이 더해 넣는다면:
+
+TMOUT=60
+
+bash는 1분 후에 세션을 종료할 것이다. 1분 동안 사용자 입력이 없었다면 1분 후에는 다음과 같은 상황이 발생한다:
+
+
+xconsole$ timed out waiting for input: auto-logout
+
+Linux 2.2.7
+
+login:
+
+여러분이 볼 수 있듯이, 현재의 사용자가 즉각 로그 아웃 되고 새로운 로긴 프롬프트가 생겨난다. 패스워드 보안이 되지 않는 화면 보호기를 사용하고 있다면 이렇게 타임 아웃 하는 것도 좋은 보안 도구가 될 수 있다.
+
+겹쳐 쓰기 방지 
+종종, bash에서 출력 재지정(redirection)을 해야 할 때가 있다[역자 주: 출력 재지정은 프로그램을 실행한 다음에 그 출력 결과를 모니터가 아닌 다른 파일이나 프로그램으로 보내는 것을 말한다]. 출력 재지정의 예를 하나 들도록 하자:
+
+
+xconsole$ echo "Hello World" > ~/.test_file
+xconsole$ echo "tcsh is better" >> ~/.test_file
+
+">"는 출력 재지정 연산자이고, ">>"는 부가(append) 연산자이다. 첫번째 명령은 Hello World 란 문자열을 ~/.test_file 이라는 파일에 저장한다. 화면 상에는 Hello World 란 문자열이 전혀 나타나지 않는다! 그 문자열은 파일 ~/.test_file으로부터 읽혀야만 한다. 두 번째 명령은 문자열을~/.test_file 파일 끝에 더해 넣는다. 이것은 ~/.test_file을 읽어보면 다음과 같이 나타난다는 뜻이다:
+
+
+xconsole$ cat ~/.test_file
+Hello World
+tcsh is better
+
+이제 ~/.test_file 파일이 매우 중요한 파일이라고 가정하자. 키보드에서 타이핑을 하는 동안에, 여러분이 잘못해서 다음의 명령을 입력했다고 하자:
+
+
+xconsole$ echo "AUGH" > ~/.test_file
+
+이 명령의 결과로 ~/.test_file 파일은 완전히 겹쳐 써진다. 모든 중요한 데이터가 지워지고 다른 것으로 바뀌어져 버린다:
+
+
+xconsole$ cat ~/.test_file
+AUGH
+
+이런 종류의 사고를 방지하기 위해서, 여러분은 noclobber 변수를 설정할 수 있다. 이 작업은 set -o noclobber 명령으로 이루어진다. 이 변수를 설정한 다음에 파일을 겹쳐 쓰려 해보도록 하자:
+
+
+xconsole$ echo "Testing..." > ~/.test_file
+bash: ~/.test_file: Cannot clobber existing file
+
+여러분이 볼 수 있듯이, bash는 여러분이 파일을 겹쳐 쓰는 것을 금지한다. 만일 겹쳐 쓰고 싶다면, ">|" 연산자를 써서 강제로 겹쳐 쓸 수 있다:
+
+
+xconsole$ echo "Try" > ~/.test_file
+bash: ~/.test_file: Cannot clobber existing file
+xconsole$ echo "Try again" >| ~/.test_file
+xconsole$ cat ~/.test_file
+Try again
+
+이 예제에서 우리가 두 번째 명령을 내렸을 때, 더 이상 bash가 불평하지 않고 명령을 수행하는 것을 볼 수 있다. 이 변수를 항상 설정해 둘 것을 권한다. 여러분의 ~/.bash_profile이나 /etc/profile에 이 변수를 두도록 하라. ">>" 연산자를 쓰려고 하다가 잘못해서 ">"을 입력하는 경우가 너무 많다. ">|"을 입력하는 것이  ">>" 을 입력하는 것보다는 어렵기 때문에 실수를 줄일 수 있다. 이런 이점이 있는 반면, ">" 연산자를 수행할 필요가 있는 쉘 프로그램에서는 이런 설정이 문제를 일으킬 수 있다[역자 주: 만일 여러분이 실행하는 프로그램이 ">" 연산자를 사용하고 noclobber변수가 설정되어 있다면, 그 쉘 프로그램을 수행할 때마다 에러 메시지를 얻게 될 것이다]. 그렇기 때문에 이 변수를 설정하는 것은 순전히 여러분 자신에게 달려있다. 이 변수를 설정하지 않으려면, unset +o noclobber 명령을 사용하면 된다.
+
+별칭(ALIASES)
+별칭은 "바로 가기 명령"이라고 부를 수 있는 것이다. 만일 여러분이 어떤 것을 빨리 하고 싶다면, 별칭을 가지고 그렇게 할 수 있다. 별칭을 이용하면 ls를 입력하는 것만으로 ls -aF --color를 입력할 수도 있고 여러분이 원하는 어떤 것이라도 할 수 있다. 일반적으로 별칭은 /etc/bashrc 이나 ~/.bashrc에 정의된다. 별칭은 다음과 같은 모양으로 정의된다:
+
+
+alias ls='ls -aF --color'
+alias haha='ls -aF --color'
+alias sl='ls -aF --color'
+
+위의 예에 있는 명령 ls, haha, sl이 입력되면, 모두 똑 같은 작업, 즉 ls -aF --color 을 수행할 것이다. 이런 방식으로 별칭은 유용하게 사용된다. 또한 별칭은 안전을 위한 예방책으로도 사용된다:
+
+
+alias rm='rm -i'
+alias mv='mv -i'
+alias cp='cp -i'
+
+위의 예에서, 명령 rm, mv, 그리고 cp는 파일을 겹쳐 쓰려고 하기 전에 확인하려고 할 것이다. 여러 가지 옵션들로 긴 명령을 입력하지 않을 수 있으므로 편리하게 이용할 수 있다. 다른 예제를 하나 들기로 하자:
+
+
+alias mycd='mount -t iso9660 /dev/cdrom /cdrom'
+
+이제 여러분은 mycd란 명령으로 CDROM을 마운트 할 수 있다. 물론 실제로 더  좋은 방법은 /etc/fstab을 편집하는 것이지만, 이렇게 별칭을 이용해서도 손쉽게 CDROM을 마운트 할 수 있다. 여러분의 현재 별칭에 어떤 것이 있는지 알아보기 위해서는 alias 명령을 사용하면 된다:
+
+
+xconsole$ alias
+alias cp='cp -i'
+alias rm='rm -i'
+alias mv='mv -i'
+
+또한 별칭은 쉘이 실행되는 동안에 설정될 수도 있고 설정되지 않을 수도 있다. 쉘에서 별칭을 설정하려면 alias 명령을 사용하면 된다. 예를 들어 보자:
+
+
+xconsole$ alias mydir='ls -alF'
+
+또한 여러분은 unalias 명령으로 별칭을 설정하지 않을 수도 있다:
+
+
+xconsole$ unalias mydir
+
+unalias 명령은 하나의 옵션을 가지고 있다: -a. 이 옵션은 현재 설정된 모든 별칭을 설정하지 않도록 해준다.
+
+함수
+함수는 일반적으로 /etc/bashrc 와 ~/.bashrc에 오게 된다. 함수는 쉘에서 불렀을 때 특별한 작업을 수행하는 짧은 코드를 의미한다. 여러분이 함수를 사용하기 위해서는 bash 쉘 프로그래밍을 알아야 할 것이다. 다음은 현재 디렉토리에 있는 모든 tarball 파일들의 압축을 해제하는 함수의 예이다:
+
+
+unpack()
+{
+for tarball in *; do
+tar xvzf $tarball
+done
+}
+
+만일 현재 디렉토리의 모든 tarball 파일들의 압축을 해제하고 싶다면, 여러분이 해야 할 일은 unpack이란 명령을 사용하는 것뿐이다. 그러면 모든 tarball 파일의 압축이 해제된다. 물론 이것은 매우 단순한 함수여서 이 함수 대신에 별칭을 사용할 수 있다:
+
+
+alias unpack='tar xvzf *.tgz'
+
+하지만,  위의 함수는 매우 단순하다. 수행되어야 하는 일에 따라 여러분은 훨씬 더 복잡한 함수를 작성할 수 있다. 전체 쉘 프로그램을 /etc/bashrc 이나 ~/.bashrc에 집어 넣고 단지 그 함수 이름만 입력해서 실행시킬 수도 있다.
+
+예제 
+다음은 bash 설정 파일이 어떻게 구성될 수 있는지를 보여주는 예제이다. 마음 놓고 이 예제를 이용해서 여러분 자신의 설정 파일을 만들어 보도록 하라. 여러분의 시스템이니 그것을 어떻게 운영할 것인지는 여러분이 결정해야만 한다.
+
+/etc/profile
+
+
+# /etc/profile: This file contains system-wide 
+defaults used by
+# all Bourne (and related) shells.
+
+# Set the values for some environment variables:
+export OPENWINHOME=/usr/openwin
+export MINICOM="-c on"
+export MANPATH=/usr/local/man:/usr/man/preformat:
+/usr/man:/usr/X11R6/man:/usr/openwin/man
+export HOSTNAME="`cat /etc/HOSTNAME`"
+export LESSOPEN="|lesspipe.sh %s"
+export LESS="-M"
+#export MOZILLA_HOME=/usr/local/netscape
+export HISTSIZE=20
+export HISTFILESIZE=20
+
+# Set notification when a job ends.
+set -o notify
+
+# Set the default system $PATH:
+PATH="$PATH:/usr/X11R6/bin:$OPENWINHOME/bin:
+/usr/games"
+
+# I had problems using 'eval tset' instead of 
+'TERM=', but you might want to 
+# try it anyway. I think with the right /etc/termcap 
+it would work great.
+# eval `tset -sQ "$TERM"`
+if [ "$TERM" = "" -o "$TERM" = "unknown" ]; then
+TERM=linux
+fi
+
+# 'kvt' uses "xterm-color" which isn't recognized by 
+programs like 'pine'
+# or 'pico', so let's change it to the default "xterm":
+if [ "$TERM" = "xterm-color" ]; then
+TERM=xterm
+fi
+
+# Set a default shell prompt:
+PS1='[\u@\h \W]\$ '
+PS2='> '
+
+ignoreeof=10
+export PATH DISPLAY LESS TERM PS1 PS2 ignoreeof
+
+# Default umask. A umask of 022 prevents new files 
+from being created group
+# and world writable.
+umask 022
+
+# Set up the LS_COLORS and LS_OPTIONS environment 
+variables for color ls:
+eval `dircolors -b`
+
+# Notify user of incoming mail. This can be overridden 
+
+in the user's
+
+# local startup file (~/.bash.login or whatever, 
+
+depending on the shell)
+
+if [ -x /usr/bin/biff ]; then
+
+biff y
+
+fi 
+
+# Print a fortune cookie for login shells:
+
+echo
+
+fortune /usr/games/lib/fortunes/fortunes /usr/games/lib/fortunes/fortunes2 
+
+echo
+
+
+# Environment variables for the Qt package:
+
+
+QTDIR=/usr/lib/qt
+
+CPLUS_INCLUDE_PATH=$QTDIR/include:$CPLUS_INCLUDE_PATH
+
+export QTDIR
+
+export CPLUS_INCLUDE_PATH
+
+
+
+# KDE additions:
+
+KDEDIR=/opt/kde
+
+PATH=$PATH:$KDEDIR/bin
+
+export KDEDIR PATH
+
+
+
+# Make sure that the current directory is always last 
+in the PATH variable. PATH="$PATH:." 
+
+/etc/bashrc 
+
+# /etc/bashrc
+
+# System wide functions and aliases 
+
+# Environment stuff goes in /etc/profile 
+
+# functions go here 
+
+# create a new ~/.plan file at every log in
+
+new_plan()
+
+{
+
+if [ -f `which fortune` ]; then
+
+echo > ~/.plan
+
+`which fortune -s` >> ~/.plan
+
+echo >> ~/.plan
+
+fi
+
+}
+
+
+# aliases go here 
+
+# paranoia
+
+alias rm='rm -i'
+
+alias cp='cp -i'
+
+alias mv='mv -i'
+
+~/.bash_profile
+
+# .bash_profile
+
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+. ~/.bashrc
+fi
+
+# user specific environment and startup programs
+PATH=$PATH:$HOME/bin:$HOME/garbage
+BASH_ENV=$HOME/.bashrc
+
+export PATH BASH_ENV
+
+~/.bashrc
+
+#.bashrc
+
+# User specific aliases and functions
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+. /etc/bashrc
+fi
+
+# create a log of all users who logged in,
+# and those currently logged in
+see_all()
+{
+LOG_FILE=/var/log/see_all
+echo `date` >> $LOG_FILE
+echo "Recent users to log in: " >> $LOG_FILE
+last | head -10 >> $LOG_FILE
+echo "Users who are currently online: " >> $LOG_FILE
+who >> $LOG_FILE
+} 
+
+# no pine-debug[?]
+alias pine='pine -d0'
+
+# special ls
+alias ls='ls -aF --color'
+
+~/.bash_logout
+# .bash_logout
+echo "You logged off at `date`"
+echo "See you again `whoami`!"
+sleep 2
+clear
+
+여러분의 상상력을 마음껏 발휘하라. 쉘은 복잡한 명령과 함수를 처리하고도 남을  만큼 강력하다. 여러분의 시스템에 있는 현재의 설정 파일을 검토하고 여러분 자신의 특별한 필요에 맞도록 뜯어 고치도록 하라.
+
+결론 
+이 NHF가 여러분 자신의 bash 설정 파일을 만들고 현재의 설정 파일들을 수정하는 데 도움이 되었기를 바란다. bash 의 매뉴얼 페이지를 읽어 볼 것을 강력하게 권한다: man bash. 여러분이 알지 못했던 많은 지식을 얻을 수 있을 것이다. 배우는 데 있어 가장 좋은 방법은 매뉴얼을 읽고 시험해 보는 것이다.
+
+
+
+

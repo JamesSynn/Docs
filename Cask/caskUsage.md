@@ -39,11 +39,11 @@ $ cask upgrade-cask
 cask가 불완전하게 설치 됐을때 재설치가 불가능하다.  이때, ~/.cask  디렉토리를 지워야 한다.
 
 $ rm -f -r ~/.cask # 디렉토리 삭제
- 
+
  이후 다시 설치하면 된다.
- 
- 
-## Usage 
+
+
+## Usage
 
 ### initial Setting
 
@@ -67,7 +67,8 @@ $ cask install
 Cask 파일이 .emacs.d 디렉토리에 있기 때문에 이곳에서 cask 명령을 실행한다.
 주의) Cask 파일에 입력된 패키지를 모두 다운로드 하기 때문에 오래 걸린다.
 
-### 
+### Init-Loader
+
 
 
 
