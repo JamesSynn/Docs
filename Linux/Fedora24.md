@@ -4,10 +4,7 @@
 ## Fedora?
 
 
-## Install
-
-
-## Environment Setting
+## 추천 프로그램 
 
 ### Do a Full System Update
    
