@@ -33,11 +33,6 @@ Tweak tool
 tip) dnf install 명령 뒤에 -y를 붙이면 어플리케이션 설치 시에  자동으로 Yes 설정 ( yes or no 를 묻지 않음 )
 
 
-### 
-
-	$ sudo dnf update -y
-
-
 ### C/C++ Compilers
 
 	$ sudo dnf install -y gcc	# C compiler
@@ -45,8 +40,22 @@ tip) dnf install 명령 뒤에 -y를 붙이면 어플리케이션 설치 시에 
 	$ sudo dnf install -y gcc-c++	# C++ compiler
 	$ sudo dnf install -y clang	# CLANG
 
-
 	$ sudo dnf install -y cmake	# CMake Install
+
+### Emacs Install
+
+	$ sudo yum install -y emacs
+
+
+### Cask Install
+
+	$ curl -fsSkL https://raw.github.com/cask/cask/master/go | python
+
+	$ export PATH="$HOME/.cask/bin:$PATH"
+	
+**Cask 문서 참조**
+[Cask 사용 설명서][caskLink]
+[caskLink]: https://github.com/JamesSynn/Docs/blob/master/Cask/caskUsage.md "Cask 설명서"
 
 
 
